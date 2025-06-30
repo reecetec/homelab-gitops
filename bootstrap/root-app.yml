@@ -5,7 +5,7 @@ metadata:
   namespace: argocd
   # This finalizer ensures that if you delete the root app, Argo CD will also delete all the child apps it created.
   finalizers:
-    - resources-finalizer.argocd.argoproj.io
+    - argoproj.io/resources-finalizer.argocd.argoproj.io
 spec:
   project: default
   source:
