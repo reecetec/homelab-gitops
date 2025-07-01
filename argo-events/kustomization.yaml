@@ -3,6 +3,17 @@ kind: Kustomization
 namespace: argo-events
 
 resources:
-  - https://raw.githubusercontent.com/argoproj/argo-events/stable/manifests/install.yaml
-  - https://raw.githubusercontent.com/argoproj/argo-events/stable/manifests/install-validating-webhook.yaml
-  - https://raw.githubusercontent.com/argoproj/argo-events/stable/examples/eventbus/native.yaml
+  # Platform installation
+  - platform
+  
+  # RBAC for workflows
+  - rbac
+  
+  # Event sources (webhooks, calendars, etc.)
+  - eventsources
+  
+  # Sensors (event processors/triggers)
+  - sensors
+  
+  # Custom services (optional)
+  - services
