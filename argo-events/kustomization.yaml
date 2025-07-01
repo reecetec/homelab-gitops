@@ -6,3 +6,8 @@ resources:
   - https://raw.githubusercontent.com/argoproj/argo-events/stable/manifests/install.yaml
   - https://raw.githubusercontent.com/argoproj/argo-events/stable/manifests/install-validating-webhook.yaml
   - https://raw.githubusercontent.com/argoproj/argo-events/stable/examples/eventbus/native.yaml
+  - eventbus.yaml
+  - rbac.yaml
+  - eventsource.yaml
+  - sensor.yaml
+  - service.yaml
