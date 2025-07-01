@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: https://github.com/reecetec/homelab-gitops.git 
     targetRevision: HEAD
-    path: apps/argo-events 
+    path: argo-events 
   destination:
     server: https://kubernetes.default.svc
     namespace: argo-events
