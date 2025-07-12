@@ -8,19 +8,15 @@ spec:
     - web
   routes:
     - kind: Rule
-      match: Host(`homelab.local`) && PathPrefix(`/argocd`)
+      match: Host(`argocd.homelab.local`)
       priority: 10
       services:
         - name: argocd-server
           port: 80
-      middlewares:
-        - name: argocd-stripprefix
     - kind: Rule
-      match: Host(`homelab.local`) && PathPrefix(`/argocd`) && Headers(`Content-Type`, `application/grpc`)
+      match: Host(`argocd.homelab.local`) && Headers(`Content-Type`, `application/grpc`)
       priority: 11
       services:
         - name: argocd-server
           port: 80
           scheme: h2c
-      middlewares:
-        - name: argocd-stripprefix
