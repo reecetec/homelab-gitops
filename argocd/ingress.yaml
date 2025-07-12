@@ -12,7 +12,7 @@ spec:
   - host: homelab.local
     http:
       paths:
-      - path: /argocd
+      - path: /
         pathType: Prefix
         backend:
           service:
