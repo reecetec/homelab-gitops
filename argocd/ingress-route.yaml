@@ -5,10 +5,16 @@ metadata:
   namespace: argocd
 spec:
   entryPoints:
-    - web
+    - websecure
   routes:
     - match: Host(`homelab.local`) && PathPrefix(`/argocd`)
       kind: Rule
       services:
         - name: argocd-server
           port: 80
+      middlewares:
+        - name: stripprefix
+  tls:
+    secretName: argocd-homelab-local-tls
+    domains:
+      - main: "homelab.local"

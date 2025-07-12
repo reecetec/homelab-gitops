@@ -14,6 +14,8 @@ spec:
       services:
         - name: api@internal
           kind: TraefikService
+      middlewares:
+        - name: stripprefix-dashboard
   tls:
     secretName: homelab-local-tls
     domains:
