@@ -2,15 +2,13 @@ apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
   name: traefik-dashboard
-  namespace: traefik
+  namespace: kube-system # Target the existing Traefik install
 spec:
   entryPoints:
-    - websecure
+    - web
   routes:
     - match: Host(`traefik.homelab.local`)
       kind: Rule
       services:
-        - name: api@internal
+        - name: api@internal # Use the special internal service for the dashboard
           kind: TraefikService
-  tls:
-    secretName: traefik-dashboard-tls

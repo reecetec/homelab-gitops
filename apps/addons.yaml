@@ -1,20 +1,19 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: traefik
+  name: addons
   namespace: argocd
 spec:
   project: default
   source:
     repoURL: https://github.com/reecetec/homelab-gitops.git
     targetRevision: HEAD
-    path: traefik
+    path: addons
   destination:
     server: https://kubernetes.default.svc
-    namespace: traefik
+    # The namespace doesn't matter as much here since the manifest has one specified
+    namespace: default
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
-    syncOptions:
-      - CreateNamespace=true
