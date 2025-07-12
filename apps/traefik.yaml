@@ -11,7 +11,7 @@ spec:
     path: traefik
   destination:
     server: https://kubernetes.default.svc
-    namespace: default
+    namespace: traefik
   syncPolicy:
     automated:
       prune: true
