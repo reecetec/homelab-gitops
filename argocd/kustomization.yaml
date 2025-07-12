@@ -3,4 +3,5 @@ kind: Kustomization
 
 resources:
   - ingress.yaml
-  # - argocd-cmd-params-cm.yaml
+  - stripprefix-middleware.yaml
+  - argocd-cmd-params-cm.yaml
