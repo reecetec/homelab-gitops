@@ -5,10 +5,12 @@ metadata:
   namespace: traefik
 spec:
   entryPoints:
-    - web
+    - websecure
   routes:
     - match: Host(`homelab.local`) && (PathPrefix(`/dashboard`) || PathPrefix(`/api`))
       kind: Rule
       services:
         - name: api@internal
           kind: TraefikService
+  tls:
+    secretName: homelab-local-tls
