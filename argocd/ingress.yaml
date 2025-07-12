@@ -7,10 +7,6 @@ metadata:
     kubernetes.io/ingress.class: "traefik"
     traefik.ingress.kubernetes.io/router.entrypoints: web
 spec:
-  tls:
-  - hosts:
-    - homelab.local
-    secretName: argocd-server-tls
   rules:
   - host: homelab.local
     http:
@@ -21,4 +17,4 @@ spec:
           service:
             name: argocd-server
             port:
-              number: 443
+              number: 80
