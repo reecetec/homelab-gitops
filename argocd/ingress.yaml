@@ -6,7 +6,7 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: "traefik"
     traefik.ingress.kubernetes.io/router.entrypoints: web
-    traefik.ingress.kubernetes.io/router.middlewares: argocd-argocd-stripprefix@kubernetescrd
+    traefik.ingress.kubernetes.io/router.rule: Host(`homelab.local`) && PathPrefix(`/argocd`)
 spec:
   rules:
   - host: homelab.local
