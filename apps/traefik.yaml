@@ -27,8 +27,6 @@ spec:
           web:
             redirectTo:
               port: websecure
-        tls:
-          enabled: true
         
   destination:
     server: https://kubernetes.default.svc
