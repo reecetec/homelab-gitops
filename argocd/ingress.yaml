@@ -1,18 +1,26 @@
-apiVersion: networking.k8s.io/v1
-kind: Ingress
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
 metadata:
-  name: argocd-server-ingress
+  name: argocd-server
   namespace: argocd
 spec:
-  ingressClassName: traefik
-  rules:
-  - host: homelab.local
-    http:
-      paths:
-      - path: /argocd
-        pathType: Prefix
-        backend:
-          service:
-            name: argocd-server
-            port:
-              number: 80
+  entryPoints:
+    - web
+  routes:
+    - kind: Rule
+      match: Host(`homelab.local`) && PathPrefix(`/argocd`)
+      priority: 10
+      services:
+        - name: argocd-server
+          port: 80
+      middlewares:
+        - name: argocd-stripprefix
+    - kind: Rule
+      match: Host(`homelab.local`) && PathPrefix(`/argocd`) && Headers(`Content-Type`, `application/grpc`)
+      priority: 11
+      services:
+        - name: argocd-server
+          port: 80
+          scheme: h2c
+      middlewares:
+        - name: argocd-stripprefix
