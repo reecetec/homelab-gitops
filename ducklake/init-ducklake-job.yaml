@@ -4,6 +4,11 @@ kind: Job
 metadata:
   name: ducklake-init-job
   namespace: ducklake
+  annotations:
+    # This tells ArgoCD to run this as a hook before the main sync
+    argocd.argoproj.io/hook: PreSync
+    # This tells ArgoCD to delete the previous version of this hook before creating the new one
+    argocd.argoproj.io/hook-delete-policy: BeforeHookCreation
 spec:
   template:
     spec:
