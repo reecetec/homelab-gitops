@@ -37,7 +37,7 @@ spec:
         volumeMounts:
         - name: ducklake-data
           mountPath: /data/ducklake
-          readOnly: true
+          readOnly: false
         - name: jupyter-notebooks
           mountPath: /home/jovyan/work
         env:
