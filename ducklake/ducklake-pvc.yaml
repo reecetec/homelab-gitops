@@ -6,7 +6,7 @@ metadata:
   namespace: ducklake
 spec:
   accessModes:
-    - ReadWriteMany  
+    - ReadWriteOnce  
   resources:
     requests:
       storage: 100Gi
