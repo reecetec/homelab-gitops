@@ -35,9 +35,6 @@ spec:
         - containerPort: 8888
           name: http
         volumeMounts:
-        - name: ducklake-data
-          mountPath: /data/ducklake
-          readOnly: false
         - name: jupyter-notebooks
           mountPath: /home/jovyan/work
         env:
@@ -56,12 +53,17 @@ spec:
             secretKeyRef:
               name: postgres-secret
               key: database
-        - name: DUCKLAKE_DATA_PATH
-          value: "/data/ducklake/"
+        - name: MINIO_ROOT_USER
+          valueFrom:
+            secretKeyRef:
+              name: minio-secret
+              key: MINIO_ROOT_USER
+        - name: MINIO_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: minio-secret
+              key: MINIO_ROOT_PASSWORD
       volumes:
-      - name: ducklake-data
-        persistentVolumeClaim:
-          claimName: ducklake-data-pvc
       - name: jupyter-notebooks
         persistentVolumeClaim:
           claimName: jupyter-notebooks-pvc
