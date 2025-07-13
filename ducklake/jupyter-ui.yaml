@@ -1,0 +1,63 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jupyter-ui
+  namespace: ducklake
+  labels:
+    app: jupyter-ui
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jupyter-ui
+  template:
+    metadata:
+      labels:
+        app: jupyter-ui
+    spec:
+      containers:
+      - name: jupyter
+        image: jupyter/base-notebook:latest
+        ports:
+        - containerPort: 8888
+          name: http
+        volumeMounts:
+        - name: ducklake-data
+          mountPath: /data/ducklake
+        env:
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: username
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: password
+        - name: POSTGRES_DB
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: database
+        - name: DUCKLAKE_DATA_PATH
+          value: "/data/ducklake/" 
+      volumes:
+      - name: ducklake-data
+        persistentVolumeClaim:
+          claimName: ducklake-data-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: jupyter-ui-svc
+  namespace: ducklake
+spec:
+  selector:
+    app: jupyter-ui
+  ports:
+  - port: 80
+    targetPort: 8888
+    protocol: TCP
+  type: ClusterIP 
