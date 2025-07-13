@@ -38,12 +38,10 @@ spec:
           # Construct the catalog connection string for DuckDB
           catalog_url = f"postgresql://{pg_user}:{pg_password}@{pg_host}:5432/{pg_db}"
 
-          # The ATTACH command for initialization
-          # We name the lake "prod_lake" here, but you can change it.
           attach_sql = f"""
           INSTALL ducklake;
           LOAD ducklake;
-          ATTACH '{catalog_url}' AS prod_lake (TYPE DUCKLAKE, DATA_PATH '{data_path}');
+          ATTACH 'ducklake:{catalog_url}' AS prod_lake (DATA_PATH '{data_path}');
           """
 
           print("Connecting to DuckDB and attaching DuckLake catalog...")
