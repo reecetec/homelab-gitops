@@ -18,8 +18,22 @@ spec:
         image: ghcr.io/reecetec/poc-dashboard:sha-e981875
         ports:
         - containerPort: 8050
+        env:
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: username
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: password
+        - name: POSTGRES_DB
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: database
         envFrom:
-        - secretRef:
-            name: postgres-secret
         - secretRef:
             name: minio-secret
