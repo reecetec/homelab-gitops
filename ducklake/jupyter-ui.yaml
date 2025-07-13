@@ -1,4 +1,16 @@
 ---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: jupyter-notebooks-pvc
+  namespace: ducklake
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi 
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -18,13 +30,16 @@ spec:
     spec:
       containers:
       - name: jupyter
-        image: jupyter/base-notebook:latest
+        image: jupyter/base-notebook:x86_64-python-3.11.6
         ports:
         - containerPort: 8888
           name: http
         volumeMounts:
         - name: ducklake-data
           mountPath: /data/ducklake
+          readOnly: true
+        - name: jupyter-notebooks
+          mountPath: /home/jovyan/work
         env:
         - name: POSTGRES_USER
           valueFrom:
@@ -42,11 +57,14 @@ spec:
               name: postgres-secret
               key: database
         - name: DUCKLAKE_DATA_PATH
-          value: "/data/ducklake/" 
+          value: "/data/ducklake/"
       volumes:
       - name: ducklake-data
         persistentVolumeClaim:
           claimName: ducklake-data-pvc
+      - name: jupyter-notebooks
+        persistentVolumeClaim:
+          claimName: jupyter-notebooks-pvc
 ---
 apiVersion: v1
 kind: Service
@@ -60,4 +78,4 @@ spec:
   - port: 80
     targetPort: 8888
     protocol: TCP
-  type: ClusterIP 
+  type: ClusterIP
