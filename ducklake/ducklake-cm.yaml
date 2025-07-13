@@ -6,4 +6,4 @@ metadata:
   namespace: ducklake
 data:
   DUCKLAKE_CATALOG_URL: "postgresql://$(POSTGRES_USER):$(POSTGRES_PASSWORD)@postgres.ducklake.svc.cluster.local:5432/$(POSTGRES_DB)"
-  DUCKLAKE_DATA_PATH: "/data/ducklake/"
+  DUCKLAKE_DATA_PATH: "s3://ducklake/data"
