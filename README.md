@@ -8,6 +8,38 @@ cd homelab-gitops/root
 kubectl apply -f root-app.yml
 ```
 
+### 1. Set secrets for minio and postgres
+Note: this isn't fully secure and for actual usage something better should be done.
+```bash
+kubectl create secret generic postgres-secret \
+  --namespace ducklake \
+  --from-literal=username='postgres' \
+  --from-literal=password='<password>' \
+  --from-literal=database='ducklake'
+
+kubectl create secret generic minio-secret \
+  --namespace ducklake \
+  --from-literal=MINIO_ROOT_USER='admin' \
+  --from-literal=MINIO_ROOT_PASSWORD='<password>'
+```
+
+### 2. Create the MinIO Bucket (One-Time Setup for ducklake)
+
+The first time you set up this environment, you must create the storage bucket in MinIO.
+
+1.  **Forward the MinIO Console Port:**
+    ```bash
+    # Run this in a new terminal
+    kubectl port-forward -n ducklake svc/minio-svc 9001:9001
+    ```
+2.  **Log in to the Console:**
+    *   Open `http://localhost:9001` in your browser.
+    *   Log in with creds set above
+3.  **Create the Bucket:**
+    *   Click the **"Create Bucket"** button.
+    *   Name the bucket `ducklake`.
+
+
 ## Argo Events Hello World Example
 
 Once ArgoCD is deployed, you'll have a working Argo Events hello world example:
