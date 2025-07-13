@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: dashboard
-        image: ghcr.io/reecetec/poc-dashboard:sha-7725f29
+        image: ghcr.io/reecetec/poc-dashboard:sha-e981875
         ports:
         - containerPort: 8050
         envFrom:
