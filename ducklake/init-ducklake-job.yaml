@@ -18,7 +18,8 @@ spec:
           pip install duckdb psycopg2-binary
           
           echo "Running DuckLake initialization script..."
-          python -c '
+          # Pipe the script into python stdin to avoid shell interpretation issues
+          python <<'EOF'
           import duckdb
           import os
           import sys
@@ -38,10 +39,11 @@ spec:
           catalog_url = f"postgresql://{pg_user}:{pg_password}@{pg_host}:5432/{pg_db}"
 
           # The ATTACH command for initialization
+          # We name the lake "prod_lake" here, but you can change it.
           attach_sql = f"""
           INSTALL ducklake;
           LOAD ducklake;
-          ATTACH \'{catalog_url}\' AS prod_lake (TYPE DUCKLAKE, DATA_PATH \'{data_path}\');
+          ATTACH '{catalog_url}' AS prod_lake (TYPE DUCKLAKE, DATA_PATH '{data_path}');
           """
 
           print("Connecting to DuckDB and attaching DuckLake catalog...")
@@ -54,7 +56,8 @@ spec:
           tables = con.execute("SHOW TABLES;").fetchall()
           print("Tables in prod_lake:", tables)
           print("Initialization complete.")
-          '
+          EOF
+
         env:
         - name: POSTGRES_USER
           valueFrom:
