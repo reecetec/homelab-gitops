@@ -5,7 +5,7 @@ metadata:
   namespace: dashboards
 spec:
   selector:
-    app: ducklake-dashboard
+    app: poc-dashboard
   ports:
   - port: 80
     targetPort: 8050
