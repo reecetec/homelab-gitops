@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: poc-dashboard
+  namespace: dashboards
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: poc-dashboard
+  template:
+    metadata:
+      labels:
+        app: poc-dashboard
+    spec:
+      containers:
+      - name: dashboard
+        image: ghcr.io/reecetec/poc-dashboard:sha-ab67449
+        ports:
+        - containerPort: 8050
+        envFrom:
+        - secretRef:
+            name: postgres-secret
+        - secretRef:
+            name: minio-secret

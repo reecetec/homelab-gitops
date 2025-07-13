@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ducklake-dashboard-ingress
+  namespace: dashboards
+spec:
+  rules:
+  - host: dashboard.homelab.local 
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: ducklake-dashboard-svc
+            port:
+              number: 80
