@@ -1,0 +1,80 @@
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: ducklake-init-job
+  namespace: ducklake
+spec:
+  template:
+    spec:
+      containers:
+      - name: ducklake-init
+        image: python:3.11-slim
+        command: ["/bin/bash", "-c"]
+        args:
+        - |
+          set -e
+          echo "Installing dependencies..."
+          pip install duckdb psycopg2-binary
+          
+          echo "Running DuckLake initialization script..."
+          python -c '
+          import duckdb
+          import os
+          import sys
+
+          # Get config from environment variables
+          pg_user = os.getenv("POSTGRES_USER")
+          pg_password = os.getenv("POSTGRES_PASSWORD")
+          pg_db = os.getenv("POSTGRES_DB")
+          pg_host = "postgres.ducklake.svc.cluster.local"
+          data_path = os.getenv("DUCKLAKE_DATA_PATH")
+
+          if not all([pg_user, pg_password, pg_db, data_path]):
+              print("Error: One or more environment variables are not set.", file=sys.stderr)
+              sys.exit(1)
+
+          # Construct the catalog connection string for DuckDB
+          catalog_url = f"postgresql://{pg_user}:{pg_password}@{pg_host}:5432/{pg_db}"
+
+          # The ATTACH command for initialization
+          attach_sql = f"""
+          INSTALL ducklake;
+          LOAD ducklake;
+          ATTACH \'{catalog_url}\' AS prod_lake (TYPE DUCKLAKE, DATA_PATH \'{data_path}\');
+          """
+
+          print("Connecting to DuckDB and attaching DuckLake catalog...")
+          con = duckdb.connect()
+          con.execute(attach_sql)
+          print("Successfully attached DuckLake catalog.")
+
+          # Verify by listing tables in the new lake
+          con.execute("USE prod_lake;")
+          tables = con.execute("SHOW TABLES;").fetchall()
+          print("Tables in prod_lake:", tables)
+          print("Initialization complete.")
+          '
+        env:
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: username
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: password
+        - name: POSTGRES_DB
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: database
+        - name: DUCKLAKE_DATA_PATH
+          valueFrom:
+            configMapKeyRef:
+              name: ducklake-config
+              key: DUCKLAKE_DATA_PATH
+      restartPolicy: OnFailure
+  backoffLimit: 4
