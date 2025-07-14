@@ -1,0 +1,14 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: poc-dashboard
+  namespace: dashboards
+spec:
+  entryPoints:
+    - web
+  routes:
+    - kind: Rule
+      match: Host(`dashboard.homelab.local`)
+      services:
+        - name: ducklake-dashboard-svc
+          port: 80
