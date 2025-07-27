@@ -10,7 +10,7 @@ spec:
     repoURL: https://charts.jetstack.io
     targetRevision: 1.18.2
     helm:
-      values:
+      parameters:
         - name: installCRDs
           value: "true"
   destination:
