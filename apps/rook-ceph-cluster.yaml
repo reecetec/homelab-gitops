@@ -18,7 +18,6 @@ spec:
           osd_pool_default_min_size = 1
           osd_crush_chooseleaf_type = 0
           mon_warn_on_pool_no_redundancy = false
-        # Configure the Ceph cluster spec
         cephClusterSpec:
           mon:
             count: 1                    
@@ -55,21 +54,7 @@ spec:
             metadataServer:
               activeCount: 1
               activeStandby: false
-        cephObjectStores:
-        - name: ceph-objectstore
-          spec:
-            metadataPool:
-              failureDomain: osd
-              replicated:
-                size: 1
-                requireSafeReplicaSize: false
-            dataPool:
-              failureDomain: osd
-              replicated:
-                size: 1
-                requireSafeReplicaSize: false
-            gateway:
-              instances: 1
+        cephObjectStores: []
   destination:
     server: https://kubernetes.default.svc
     namespace: rook-ceph
