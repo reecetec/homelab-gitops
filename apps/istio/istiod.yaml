@@ -15,12 +15,12 @@ spec:
     #   parameters:
     #     - name: installCRDs
     #       value: "true"
-    ignoreDifferences:
-      - group: admissionregistration.k8s.io
-        kind: ValidatingWebhookConfiguration
-        name: istio-validator-istio-system
-        jqPathExpressions:
-          - .webhooks[] | select(.name == "rev.validation.istio.io") | .failurePolicy
+  ignoreDifferences:
+    - group: admissionregistration.k8s.io
+      kind: ValidatingWebhookConfiguration
+      name: istio-validator-istio-system
+      jqPathExpressions:
+        - .webhooks[] | select(.name == "rev.validation.istio.io") | .failurePolicy
   destination:
     server: "https://kubernetes.default.svc"
     namespace: istio-system
