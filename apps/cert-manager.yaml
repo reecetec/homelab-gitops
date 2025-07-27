@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    chart: jetsatck/cert-manager
+    chart: cert-manager
     repoURL: https://charts.jetstack.io
     targetRevision: HEAD
     # helm:
