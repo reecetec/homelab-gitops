@@ -9,52 +9,6 @@ spec:
     repoURL: https://charts.rook.io/release
     chart: rook-ceph-cluster
     targetRevision: v1.17.6
-    helm:
-      values: |
-        operatorNamespace: rook-ceph
-        configOverride: |
-          [global]
-          osd_pool_default_size = 1
-          osd_pool_default_min_size = 1
-          osd_crush_chooseleaf_type = 0
-          mon_warn_on_pool_no_redundancy = false
-        cephClusterSpec:
-          mon:
-            count: 1                    
-            allowMultiplePerNode: true  
-          mgr:
-            count: 1
-            allowMultiplePerNode: true
-          storage:
-            useAllNodes: true
-            useAllDevices: false
-            config:
-              osdsPerDevice: "1"
-            directories:
-            - path: /var/lib/rook
-        cephBlockPools:
-        - name: ceph-blockpool
-          spec:
-            failureDomain: osd
-            replicated:
-              size: 1
-              requireSafeReplicaSize: false
-        cephFileSystems:
-        - name: ceph-filesystem
-          spec:
-            metadataPool:
-              replicated:
-                size: 1
-                requireSafeReplicaSize: false
-            dataPools:
-            - failureDomain: osd
-              replicated:
-                size: 1
-                requireSafeReplicaSize: false
-            metadataServer:
-              activeCount: 1
-              activeStandby: false
-        cephObjectStores: []
   destination:
     server: https://kubernetes.default.svc
     namespace: rook-ceph
@@ -64,4 +18,3 @@ spec:
       selfHeal: true
     syncOptions:
     - CreateNamespace=true
-    - ServerSideApply=true
