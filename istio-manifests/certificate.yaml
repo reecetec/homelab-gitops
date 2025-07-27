@@ -11,3 +11,4 @@ spec:
   issuerRef:
     name: selfsigned-issuer
     kind: ClusterIssuer
+    group: cert-manager.io
