@@ -1,9 +1,0 @@
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
-
-resources:
-  - webhook-hello.yaml
-  # Add new eventsources here:
-  # - webhook-another.yaml
-  # - calendar-trigger.yaml
-  # - github-webhook.yaml
