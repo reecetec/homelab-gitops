@@ -10,8 +10,11 @@ spec:
     repoURL: https://airflow.apache.org
     targetRevision: 1.18.0
     helm:
-      valueFiles:
-        - values.yaml
+      values: |
+        createUserJob:
+          useHelmHooks: false
+        migrateDatabaseJob:
+          useHelmHooks: false
   destination:
     server: "https://kubernetes.default.svc"
     namespace: airflow
