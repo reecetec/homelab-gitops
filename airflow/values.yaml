@@ -13,3 +13,6 @@ dags:
     rev: HEAD
     branch: main
     subPath: dags
+
+redis:
+  passwordSecretName: airflow-redis-password
