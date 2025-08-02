@@ -16,4 +16,4 @@ spec:
         value: /
     backendRefs:
     - name: airflow-api-server
-      port: 80
+      port: 8080
