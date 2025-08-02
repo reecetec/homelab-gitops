@@ -4,3 +4,12 @@ createUserJob:
 migrateDatabaseJob:
   useHelmHooks: false
   applyCustomEnv: false
+
+
+dags:
+  gitSync:
+    enabled: true
+    repo: https://github.com/juicebox-platform/sportsflow.git
+    rev: HEAD
+    branch: main
+    subPath: dags
