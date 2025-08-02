@@ -1,2 +1,4 @@
-createUserJob.useHelmHooks: false
-migrateDatabaseJob.useHelmHooks: false
+createUserJob:
+  useHelmHooks: false
+migrateDatabaseJob:
+  useHelmHooks: false
