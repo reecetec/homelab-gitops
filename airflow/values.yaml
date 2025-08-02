@@ -16,5 +16,4 @@ dags:
 
 redis:
   # passwordSecretName: airflow-redis-password
-  auth:
-    enabled: false
+  password: ""
