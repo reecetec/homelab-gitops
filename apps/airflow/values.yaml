@@ -1,0 +1,2 @@
+createUserJob.useHelmHooks: false
+migrateDatabaseJob.useHelmHooks: false
