@@ -15,4 +15,6 @@ dags:
     subPath: dags
 
 redis:
-  passwordSecretName: airflow-redis-password
+  # passwordSecretName: airflow-redis-password
+  auth:
+    enabled: false
