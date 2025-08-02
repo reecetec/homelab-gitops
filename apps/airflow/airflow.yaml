@@ -10,7 +10,7 @@ spec:
     repoURL: https://airflow.apache.org
     targetRevision: 1.18.0
     helm:
-      value_files:
+      valueFiles:
         - values.yaml
   destination:
     server: "https://kubernetes.default.svc"
